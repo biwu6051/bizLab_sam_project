@@ -1,0 +1,793 @@
+[
+    {
+        "Bread": 3.7,
+        "Chicken": 4.5,
+        "Apple": 7.9,
+        "Onion": 9.2,
+        "Pepper": 2.8
+    },
+    {
+        "Beef": 10,
+        "Orange": 8.9,
+        "Potato": 6.6,
+        "Onion": 9.2,
+        "Cucumber": 7.3
+    },
+    {
+        "Beef": 10,
+        "Fish": 1.8,
+        "Orange": 8.9,
+        "Carrot": 7.7,
+        "Broccoli": 3.5
+    },
+    {
+        "Pork": 4.2,
+        "Tomato": 8.1,
+        "Broccoli": 3.5,
+        "Pepper": 2.8,
+        "Mushroom": 4
+    },
+    {
+        "Egg": 1.9,
+        "Orange": 8.9,
+        "Cucumber": 7.3,
+        "Juice": 6.6,
+        "Soda": 8.5
+    },
+    {
+        "Butter": 9.9,
+        "Beef": 10,
+        "Fish": 1.8,
+        "Onion": 9.2,
+        "Lettuce": 9
+    },
+    {
+        "Fish": 1.8,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Tomato": 8.1,
+        "Water": 1.5
+    },
+    {
+        "Egg": 1.9,
+        "Carrot": 7.7,
+        "Juice": 6.6,
+        "Soda": 8.5,
+        "Water": 1.5
+    },
+    {
+        "Chicken": 4.5,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Potato": 6.6,
+        "Juice": 6.6
+    },
+    {
+        "Milk": 5.4,
+        "Pork": 4.2,
+        "Juice": 6.6,
+        "Cereal": 6.7,
+        "Water": 1.5
+    },
+    {
+        "Cheese": 8.7,
+        "Pasta": 5,
+        "Orange": 8.9,
+        "Onion": 9.2,
+        "Broccoli": 3.5
+    },
+    {
+        "Butter": 9.9,
+        "Beef": 10,
+        "Fish": 1.8,
+        "Onion": 9.2,
+        "Cabbage": 6.3
+    },
+    {
+        "Egg": 1.9,
+        "Tomato": 8.1,
+        "Broccoli": 3.5,
+        "Mushroom": 4,
+        "Soda": 8.5
+    },
+    {
+        "Bread": 3.7,
+        "Cheese": 8.7,
+        "Fish": 1.8,
+        "Orange": 8.9,
+        "Cabbage": 6.3
+    },
+    {
+        "Beef": 10,
+        "Tomato": 8.1,
+        "Cucumber": 7.3,
+        "Mushroom": 4,
+        "Water": 1.5
+    },
+    {
+        "Beef": 10,
+        "Apple": 7.9,
+        "Potato": 6.6,
+        "Carrot": 7.7,
+        "Cabbage": 6.3
+    },
+    {
+        "Cheese": 8.7,
+        "Rice": 3.1,
+        "Carrot": 7.7,
+        "Broccoli": 3.5,
+        "Soda": 8.5
+    },
+    {
+        "Butter": 9.9,
+        "Beef": 10,
+        "Fish": 1.8,
+        "Tomato": 8.1,
+        "Cucumber": 7.3
+    },
+    {
+        "Chicken": 4.5,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Onion": 9.2,
+        "Garlic": 8.9
+    },
+    {
+        "Butter": 9.9,
+        "Broccoli": 3.5,
+        "Garlic": 8.9,
+        "Soda": 8.5,
+        "Water": 1.5
+    },
+    {
+        "Apple": 7.9,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Onion": 9.2,
+        "Carrot": 7.7
+    },
+    {
+        "Fish": 1.8,
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Carrot": 7.7,
+        "Pepper": 2.8
+    },
+    {
+        "Egg": 1.9,
+        "Orange": 8.9,
+        "Carrot": 7.7,
+        "Cabbage": 6.3,
+        "Pepper": 2.8
+    },
+    {
+        "Milk": 5.4,
+        "Bread": 3.7,
+        "Pasta": 5,
+        "Garlic": 8.9,
+        "Water": 1.5
+    },
+    {
+        "Apple": 7.9,
+        "Tomato": 8.1,
+        "Potato": 6.6,
+        "Soda": 8.5,
+        "Water": 1.5
+    },
+    {
+        "Milk": 5.4,
+        "Chicken": 4.5,
+        "Pasta": 5,
+        "Banana": 7.4,
+        "Pepper": 2.8
+    },
+    {
+        "Butter": 9.9,
+        "Apple": 7.9,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Cereal": 6.7
+    },
+    {
+        "Butter": 9.9,
+        "Beef": 10,
+        "Rice": 3.1,
+        "Lettuce": 9,
+        "Yogurt": 5.4
+    },
+    {
+        "Bread": 3.7,
+        "Chicken": 4.5,
+        "Broccoli": 3.5,
+        "Juice": 6.6,
+        "Water": 1.5
+    },
+    {
+        "Fish": 1.8,
+        "Pasta": 5,
+        "Potato": 6.6,
+        "Garlic": 8.9,
+        "Yogurt": 5.4
+    },
+    {
+        "Egg": 1.9,
+        "Milk": 5.4,
+        "Chicken": 4.5,
+        "Banana": 7.4,
+        "Soda": 8.5
+    },
+    {
+        "Butter": 9.9,
+        "Cheese": 8.7,
+        "Fish": 1.8,
+        "Cabbage": 6.3,
+        "Pepper": 2.8
+    },
+    {
+        "Bread": 3.7,
+        "Cheese": 8.7,
+        "Pasta": 5,
+        "Apple": 7.9,
+        "Water": 1.5
+    },
+    {
+        "Pork": 4.2,
+        "Banana": 7.4,
+        "Broccoli": 3.5,
+        "Cucumber": 7.3,
+        "Garlic": 8.9
+    },
+    {
+        "Milk": 5.4,
+        "Rice": 3.1,
+        "Broccoli": 3.5,
+        "Cucumber": 7.3,
+        "Water": 1.5
+    },
+    {
+        "Chicken": 4.5,
+        "Pork": 4.2,
+        "Tomato": 8.1,
+        "Mushroom": 4,
+        "Soda": 8.5
+    },
+    {
+        "Egg": 1.9,
+        "Chicken": 4.5,
+        "Rice": 3.1,
+        "Apple": 7.9,
+        "Soda": 8.5
+    },
+    {
+        "Cheese": 8.7,
+        "Onion": 9.2,
+        "Cabbage": 6.3,
+        "Mushroom": 4,
+        "Water": 1.5
+    },
+    {
+        "Egg": 1.9,
+        "Butter": 9.9,
+        "Pork": 4.2,
+        "Pepper": 2.8,
+        "Water": 1.5
+    },
+    {
+        "Cheese": 8.7,
+        "Pork": 4.2,
+        "Rice": 3.1,
+        "Apple": 7.9,
+        "Cucumber": 7.3
+    },
+    {
+        "Cheese": 8.7,
+        "Cabbage": 6.3,
+        "Mushroom": 4,
+        "Soda": 8.5,
+        "Water": 1.5
+    },
+    {
+        "Chicken": 4.5,
+        "Fish": 1.8,
+        "Orange": 8.9,
+        "Lettuce": 9,
+        "Garlic": 8.9
+    },
+    {
+        "Milk": 5.4,
+        "Tomato": 8.1,
+        "Carrot": 7.7,
+        "Cucumber": 7.3,
+        "Juice": 6.6
+    },
+    {
+        "Bread": 3.7,
+        "Orange": 8.9,
+        "Lettuce": 9,
+        "Cereal": 6.7,
+        "Water": 1.5
+    },
+    {
+        "Bread": 3.7,
+        "Rice": 3.1,
+        "Tomato": 8.1,
+        "Broccoli": 3.5,
+        "Pepper": 2.8
+    },
+    {
+        "Pasta": 5,
+        "Onion": 9.2,
+        "Broccoli": 3.5,
+        "Juice": 6.6,
+        "Cereal": 6.7
+    },
+    {
+        "Banana": 7.4,
+        "Tomato": 8.1,
+        "Cabbage": 6.3,
+        "Mushroom": 4,
+        "Cereal": 6.7
+    },
+    {
+        "Tomato": 8.1,
+        "Lettuce": 9,
+        "Cucumber": 7.3,
+        "Yogurt": 5.4,
+        "Juice": 6.6
+    },
+    {
+        "Milk": 5.4,
+        "Potato": 6.6,
+        "Carrot": 7.7,
+        "Mushroom": 4,
+        "Yogurt": 5.4
+    },
+    {
+        "Egg": 1.9,
+        "Cheese": 8.7,
+        "Pork": 4.2,
+        "Pepper": 2.8,
+        "Yogurt": 5.4
+    },
+    {
+        "Butter": 9.9,
+        "Pasta": 5,
+        "Pepper": 2.8,
+        "Yogurt": 5.4,
+        "Cereal": 6.7
+    },
+    {
+        "Milk": 5.4,
+        "Banana": 7.4,
+        "Onion": 9.2,
+        "Broccoli": 3.5,
+        "Pepper": 2.8
+    },
+    {
+        "Milk": 5.4,
+        "Pork": 4.2,
+        "Fish": 1.8,
+        "Pasta": 5,
+        "Banana": 7.4
+    },
+    {
+        "Rice": 3.1,
+        "Cabbage": 6.3,
+        "Mushroom": 4,
+        "Garlic": 8.9,
+        "Soda": 8.5
+    },
+    {
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Pepper": 2.8,
+        "Juice": 6.6
+    },
+    {
+        "Bread": 3.7,
+        "Rice": 3.1,
+        "Orange": 8.9,
+        "Garlic": 8.9,
+        "Juice": 6.6
+    },
+    {
+        "Chicken": 4.5,
+        "Broccoli": 3.5,
+        "Juice": 6.6,
+        "Cereal": 6.7,
+        "Soda": 8.5
+    },
+    {
+        "Milk": 5.4,
+        "Pasta": 5,
+        "Broccoli": 3.5,
+        "Pepper": 2.8,
+        "Garlic": 8.9
+    },
+    {
+        "Milk": 5.4,
+        "Beef": 10,
+        "Rice": 3.1,
+        "Yogurt": 5.4,
+        "Juice": 6.6
+    },
+    {
+        "Egg": 1.9,
+        "Milk": 5.4,
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Cereal": 6.7
+    },
+    {
+        "Carrot": 7.7,
+        "Lettuce": 9,
+        "Juice": 6.6,
+        "Cereal": 6.7,
+        "Water": 1.5
+    },
+    {
+        "Egg": 1.9,
+        "Butter": 9.9,
+        "Rice": 3.1,
+        "Cucumber": 7.3,
+        "Pepper": 2.8
+    },
+    {
+        "Milk": 5.4,
+        "Beef": 10,
+        "Broccoli": 3.5,
+        "Cabbage": 6.3,
+        "Pepper": 2.8
+    },
+    {
+        "Butter": 9.9,
+        "Fish": 1.8,
+        "Rice": 3.1,
+        "Apple": 7.9,
+        "Juice": 6.6
+    },
+    {
+        "Milk": 5.4,
+        "Cheese": 8.7,
+        "Beef": 10,
+        "Banana": 7.4,
+        "Yogurt": 5.4
+    },
+    {
+        "Beef": 10,
+        "Banana": 7.4,
+        "Lettuce": 9,
+        "Cucumber": 7.3,
+        "Yogurt": 5.4
+    },
+    {
+        "Pork": 4.2,
+        "Fish": 1.8,
+        "Onion": 9.2,
+        "Lettuce": 9,
+        "Pepper": 2.8
+    },
+    {
+        "Beef": 10,
+        "Onion": 9.2,
+        "Broccoli": 3.5,
+        "Pepper": 2.8,
+        "Juice": 6.6
+    },
+    {
+        "Chicken": 4.5,
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Carrot": 7.7,
+        "Soda": 8.5
+    },
+    {
+        "Milk": 5.4,
+        "Pork": 4.2,
+        "Fish": 1.8,
+        "Pasta": 5,
+        "Onion": 9.2
+    },
+    {
+        "Beef": 10,
+        "Pork": 4.2,
+        "Carrot": 7.7,
+        "Pepper": 2.8,
+        "Juice": 6.6
+    },
+    {
+        "Cheese": 8.7,
+        "Beef": 10,
+        "Cucumber": 7.3,
+        "Mushroom": 4,
+        "Cereal": 6.7
+    },
+    {
+        "Butter": 9.9,
+        "Chicken": 4.5,
+        "Tomato": 8.1,
+        "Potato": 6.6,
+        "Cereal": 6.7
+    },
+    {
+        "Apple": 7.9,
+        "Cucumber": 7.3,
+        "Garlic": 8.9,
+        "Yogurt": 5.4,
+        "Soda": 8.5
+    },
+    {
+        "Egg": 1.9,
+        "Milk": 5.4,
+        "Pork": 4.2,
+        "Cabbage": 6.3,
+        "Soda": 8.5
+    },
+    {
+        "Tomato": 8.1,
+        "Potato": 6.6,
+        "Carrot": 7.7,
+        "Lettuce": 9,
+        "Yogurt": 5.4
+    },
+    {
+        "Butter": 9.9,
+        "Orange": 8.9,
+        "Carrot": 7.7,
+        "Cucumber": 7.3,
+        "Yogurt": 5.4
+    },
+    {
+        "Egg": 1.9,
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Potato": 6.6,
+        "Broccoli": 3.5
+    },
+    {
+        "Milk": 5.4,
+        "Butter": 9.9,
+        "Rice": 3.1,
+        "Juice": 6.6,
+        "Soda": 8.5
+    },
+    {
+        "Milk": 5.4,
+        "Fish": 1.8,
+        "Broccoli": 3.5,
+        "Pepper": 2.8,
+        "Cereal": 6.7
+    },
+    {
+        "Bread": 3.7,
+        "Banana": 7.4,
+        "Carrot": 7.7,
+        "Yogurt": 5.4,
+        "Water": 1.5
+    },
+    {
+        "Milk": 5.4,
+        "Pork": 4.2,
+        "Tomato": 8.1,
+        "Broccoli": 3.5,
+        "Mushroom": 4
+    },
+    {
+        "Butter": 9.9,
+        "Pasta": 5,
+        "Orange": 8.9,
+        "Tomato": 8.1,
+        "Juice": 6.6
+    },
+    {
+        "Chicken": 4.5,
+        "Beef": 10,
+        "Pork": 4.2,
+        "Fish": 1.8,
+        "Banana": 7.4
+    },
+    {
+        "Milk": 5.4,
+        "Pork": 4.2,
+        "Rice": 3.1,
+        "Broccoli": 3.5,
+        "Garlic": 8.9
+    },
+    {
+        "Pasta": 5,
+        "Broccoli": 3.5,
+        "Mushroom": 4,
+        "Garlic": 8.9,
+        "Cereal": 6.7
+    },
+    {
+        "Chicken": 4.5,
+        "Tomato": 8.1,
+        "Lettuce": 9,
+        "Garlic": 8.9,
+        "Soda": 8.5
+    },
+    {
+        "Chicken": 4.5,
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Lettuce": 9,
+        "Mushroom": 4
+    },
+    {
+        "Rice": 3.1,
+        "Pasta": 5,
+        "Broccoli": 3.5,
+        "Mushroom": 4,
+        "Water": 1.5
+    },
+    {
+        "Bread": 3.7,
+        "Pasta": 5,
+        "Lettuce": 9,
+        "Soda": 8.5,
+        "Water": 1.5
+    },
+    {
+        "Beef": 10,
+        "Rice": 3.1,
+        "Cabbage": 6.3,
+        "Pepper": 2.8,
+        "Garlic": 8.9
+    },
+    {
+        "Egg": 1.9,
+        "Butter": 9.9,
+        "Pasta": 5,
+        "Yogurt": 5.4,
+        "Water": 1.5
+    },
+    {
+        "Cheese": 8.7,
+        "Onion": 9.2,
+        "Lettuce": 9,
+        "Soda": 8.5,
+        "Water": 1.5
+    },
+    {
+        "Egg": 1.9,
+        "Pasta": 5,
+        "Carrot": 7.7,
+        "Pepper": 2.8,
+        "Yogurt": 5.4
+    },
+    {
+        "Banana": 7.4,
+        "Tomato": 8.1,
+        "Onion": 9.2,
+        "Broccoli": 3.5,
+        "Water": 1.5
+    },
+    {
+        "Cheese": 8.7,
+        "Onion": 9.2,
+        "Cabbage": 6.3,
+        "Pepper": 2.8,
+        "Yogurt": 5.4
+    },
+    {
+        "Apple": 7.9,
+        "Onion": 9.2,
+        "Cucumber": 7.3,
+        "Pepper": 2.8,
+        "Juice": 6.6
+    },
+    {
+        "Egg": 1.9,
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Cereal": 6.7,
+        "Water": 1.5
+    },
+    {
+        "Cheese": 8.7,
+        "Beef": 10,
+        "Banana": 7.4,
+        "Onion": 9.2,
+        "Water": 1.5
+    },
+    {
+        "Beef": 10,
+        "Onion": 9.2,
+        "Lettuce": 9,
+        "Yogurt": 5.4,
+        "Water": 1.5
+    },
+    {
+        "Beef": 10,
+        "Tomato": 8.1,
+        "Lettuce": 9,
+        "Juice": 6.6,
+        "Soda": 8.5
+    },
+    {
+        "Egg": 1.9,
+        "Cheese": 8.7,
+        "Pasta": 5,
+        "Yogurt": 5.4,
+        "Soda": 8.5
+    },
+    {
+        "Pork": 4.2,
+        "Rice": 3.1,
+        "Broccoli": 3.5,
+        "Lettuce": 9,
+        "Mushroom": 4
+    },
+    {
+        "Egg": 1.9,
+        "Orange": 8.9,
+        "Potato": 6.6,
+        "Broccoli": 3.5,
+        "Water": 1.5
+    },
+    {
+        "Rice": 3.1,
+        "Apple": 7.9,
+        "Orange": 8.9,
+        "Lettuce": 9,
+        "Mushroom": 4
+    },
+    {
+        "Milk": 5.4,
+        "Bread": 3.7,
+        "Chicken": 4.5,
+        "Juice": 6.6,
+        "Cereal": 6.7
+    },
+    {
+        "Banana": 7.4,
+        "Orange": 8.9,
+        "Tomato": 8.1,
+        "Cabbage": 6.3,
+        "Yogurt": 5.4
+    },
+    {
+        "Egg": 1.9,
+        "Milk": 5.4,
+        "Bread": 3.7,
+        "Onion": 9.2,
+        "Juice": 6.6
+    },
+    {
+        "Beef": 10,
+        "Broccoli": 3.5,
+        "Cucumber": 7.3,
+        "Pepper": 2.8,
+        "Mushroom": 4
+    },
+    {
+        "Pork": 4.2,
+        "Orange": 8.9,
+        "Tomato": 8.1,
+        "Pepper": 2.8,
+        "Garlic": 8.9
+    },
+    {
+        "Rice": 3.1,
+        "Banana": 7.4,
+        "Potato": 6.6,
+        "Onion": 9.2,
+        "Juice": 6.6
+    },
+    {
+        "Egg": 1.9,
+        "Bread": 3.7,
+        "Potato": 6.6,
+        "Onion": 9.2,
+        "Mushroom": 4
+    },
+    {
+        "Apple": 7.9,
+        "Broccoli": 3.5,
+        "Cucumber": 7.3,
+        "Garlic": 8.9,
+        "Yogurt": 5.4
+    }
+]
