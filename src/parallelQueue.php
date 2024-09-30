@@ -349,6 +349,22 @@ $current_customer_items = $customer_items[0];
         // Send the submit times to Qualtrics
         // Qualtrics.SurveyEngine.setEmbeddedData('submitTimes', JSON.stringify(submitTimes));
     });
+
+    // Add a message listener to receive requests from the parent window
+    window.addEventListener('message', function(event) {
+        // Not considering security issues, so we won't check event.origin
+
+        if (event.data && event.data.type === 'REQUEST_SUBMIT_TIMES') {
+            // Prepare the data to send
+            var data = {
+                type: 'RESPONSE_SUBMIT_TIMES',
+                submitTimes: submitTimes
+            };
+
+            // Send the data back to the parent window via postMessage
+            window.parent.postMessage(data, '*'); // Not considering security issues, using '*'
+        }
+    });
     </script>
 </body>
 </html>
