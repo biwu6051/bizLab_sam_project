@@ -1,21 +1,52 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Experiment Navigation</title>
+    <title>Choose Experiment</title>
     <style>
-        /* Basic styling */
-        body { font-family: Arial, sans-serif; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .container { text-align: center; }
-        button { padding: 15px 30px; font-size: 18px; cursor: pointer; }
+        .container-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            gap: 50px;
+            margin-top: 50px;
+        }
+        .container {
+            width: 300px;
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f9f9f9;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        /* echo design */
+        @media (max-width: 600px) {
+            .container-wrapper {
+                flex-direction: column;
+                align-items: center;
+                gap: 20px;
+            }
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Welcome to the Economic Experiment</h1>
-        <p>Click the button below to start the simulation.</p>
-        <button onclick="window.location.href='/src/parallelQueue.php'">Start Simulation</button>
+    <div class="container-wrapper">
+        <div class="container">
+            <h1>Parallel Experiment</h1>
+            <p>Click the button below to start the simulation.</p>
+            <button onclick="window.location.href='/src/parallelQueue.php'">Start Simulation</button>
+        </div>
+        
+        <div class="container">
+            <h1>Pooled Experiment</h1>
+            <p>Click the button below to start the simulation.</p>
+            <button onclick="window.location.href='/src/pooledQueue.php'">Start Simulation</button>
+        </div>
     </div>
 </body>
 </html>
