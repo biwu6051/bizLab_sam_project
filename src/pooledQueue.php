@@ -10,9 +10,10 @@ $prices = json_decode(file_get_contents($configDir . 'prices.json'), true);
 $customer_items = json_decode(file_get_contents($configDir . 'customer_items.json'), true);
 
 // Get all customer images from the directory
-$customer_images = array_diff(scandir($customerImgDir), array('.', '..'));
+$customer_images = array_values(array_diff(scandir($customerImgDir), array('.', '..')));
 
 // Initialize the pooled queue with initial customers
+$num_cashiers = 4;
 $initial_customers = 16;
 $pooled_queue = [];
 
@@ -48,14 +49,21 @@ $current_customer_items = $customer_items[0];
             box-sizing: border-box;
             padding: 20px;
         }
-        .left {
-            background-color: #f0f0f0; 
-        }   
-        .cashier-area {
+
+        /* New container to wrap the queue and cashier area */
+        .queue-cashier-container {
             display: flex;
-            flex-direction: column;
-            gap: 20px;
-            align-items: flex-end;
+            justify-content: flex-start; /* Align items to the start horizontally */
+            align-items: flex-start;     /* Align items to the start vertically */
+            width: 100%;
+        }
+
+        /* Queue Wrapper */
+        .queue-wrapper {
+            flex-grow: 1;
+            display: flex;
+            justify-content: flex-end; /* Align the queue to the right */
+            background-color: #f0f0f0; 
         }
 
         /* Pooled queue styling */
@@ -66,8 +74,9 @@ $current_customer_items = $customer_items[0];
             gap: 10px;
             padding: 10px;
             background-color: #f0f0f0;
-            width: max-content; /* auto width */
-            margin-left: auto; /* push to right */
+            /* Remove margin-left and width */
+            /* width: max-content; */
+            /* margin-left: auto; */
         }
 
         .queue img {
@@ -104,17 +113,27 @@ $current_customer_items = $customer_items[0];
             grid-row: auto;
         }
 
+        .cashier-area {
+            /* Ensure the cashier area doesn't grow to fill space */
+            flex-shrink: 0;
+            margin-left: 20px; /* Add some space between queue and cashiers */
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            align-items: flex-start; /* Align to the start to match left alignment */
+        }
         .cashier {
             display: flex;
             align-items: center;
-            justify-content: flex-end;
+            /* justify-content: flex-end; */ /* No longer needed */
             width: 100%;
+            height: 40px;
         }
         .cashier-name {
             margin-left: 20px;
             font-size: 18px;
-            width: 120px;
-            text-align: right;
+            /* width: 120px; */ /* Adjust as needed */
+            text-align: left;
         }
         .items-container {
             display: flex;
@@ -163,20 +182,25 @@ $current_customer_items = $customer_items[0];
 <body>
     <div class="main-container">
         <div class="left">
-            <!-- Pooled Queue -->
-            <div class="queue" id="pooled-queue">
-                <?php foreach ($pooled_queue as $customer_img): ?>
-                    <img src="../public/customer/<?php echo $customer_img; ?>" alt="Customer">
-                <?php endforeach; ?>
-            </div>
-
-            <!-- Cashier Area -->
-            <div class="cashier-area" id="cashier-area">
-                <?php for ($i = 0; $i < $num_cashiers; $i++): ?>
-                    <div class="cashier" id="cashier-<?php echo $i; ?>">
-                        <div class="cashier-name">Cashier <?php echo $i + 1; ?><?php echo $i == 1 ? ' (You)' : ''; ?></div>
+            <!-- New container to wrap the queue and cashier area -->
+            <div class="queue-cashier-container">
+                <!-- Queue Wrapper -->
+                <div class="queue-wrapper">
+                    <div class="queue" id="pooled-queue">
+                        <?php foreach ($pooled_queue as $customer_img): ?>
+                            <img src="../public/customer/<?php echo $customer_img; ?>" alt="Customer">
+                        <?php endforeach; ?>
                     </div>
-                <?php endfor; ?>
+                </div>
+
+                <!-- Cashier Area -->
+                <div class="cashier-area" id="cashier-area">
+                    <?php for ($i = 0; $i < $num_cashiers; $i++): ?>
+                        <div class="cashier" id="cashier-<?php echo $i; ?>">
+                            <div class="cashier-name">Cashier <?php echo $i + 1; ?><?php echo $i == 1 ? ' (You)' : ''; ?></div>
+                        </div>
+                    <?php endfor; ?>
+                </div>
             </div>
         </div>
         <div class="right">
@@ -434,3 +458,5 @@ $current_customer_items = $customer_items[0];
     </script>
 </body>
 </html>
+
+
