@@ -99,10 +99,10 @@ $current_customer_items = $customer_items[0];
             </div>
         </div>
     </div>
-    <div class="timer-container">
+    <!-- <div class="timer-container">
         <div id="elapsed-time">Elapsed Time: 0 seconds</div>
         <div id="next-arrival">Next customer arrival in: </div>
-    </div>
+    </div> -->
 
     <script>
         let currentCustomerIndex = 0; // Initialize the index for the first customer
@@ -182,7 +182,7 @@ $current_customer_items = $customer_items[0];
             lastArrivalTime = nextArrivalTime;
 
             // Update the timer display
-            document.getElementById('next-arrival').textContent = 'Next customer arrival at: ' + nextArrivalTime.toFixed(2) + ' seconds';
+            // document.getElementById('next-arrival').textContent = 'Next customer arrival at: ' + nextArrivalTime.toFixed(2) + ' seconds';
 
             // Set a timeout for the next customer arrival
             setTimeout(() => {
@@ -191,23 +191,23 @@ $current_customer_items = $customer_items[0];
                 startCustomerArrivalTimer(); // Start the timer for the next customer
             }, timeUntilNextArrival);
         } else {
-            document.getElementById('next-arrival').textContent = 'All customers have arrived.';
+            // document.getElementById('next-arrival').textContent = 'All customers have arrived.';
         }
     }
 
     // Function to start the elapsed time counter
-    function startElapsedTimeCounter() {
-        setInterval(() => {
-            elapsedTime++;
-            document.getElementById('elapsed-time').textContent = 'Elapsed Time: ' + elapsedTime + ' seconds';
-        }, 1000); // Update every second
-    }
+    // function startElapsedTimeCounter() {
+    //     setInterval(() => {
+    //         elapsedTime++;
+    //         document.getElementById('elapsed-time').textContent = 'Elapsed Time: ' + elapsedTime + ' seconds';
+    //     }, 1000); // Update every second
+    // }
 
     // Start the customer arrival timer
     startCustomerArrivalTimer();
 
     // Start the elapsed time counter
-    startElapsedTimeCounter();
+    // startElapsedTimeCounter();
 
     // Function to handle cart submission and customer departure for the participant's queue (Cashier 2)
     document.getElementById('submit-cart').addEventListener('click', function() {
