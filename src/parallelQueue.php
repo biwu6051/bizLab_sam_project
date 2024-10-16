@@ -43,6 +43,12 @@ $current_customer_items = $customer_items[0];
         .cashier { display: flex; align-items: center; justify-content: flex-end; width: 100%; }
         .queue { display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; background-color: #f0f0f0; padding: 5px 0; border-radius: 5px; width: 100%; }
         .queue img { width: 40px; height: 40px; border-radius: 50%; }
+        .queue img:first-child {margin-left: 20px;border: 2px solid grey;}
+        #cashier-0 .queue img,
+        #cashier-2 .queue img,
+        #cashier-3 .queue img {
+            filter: grayscale(100%);
+        }
         .cashier-name { margin-left: 20px; font-size: 18px; width: 120px; text-align: right; }
         .items-container { display: flex; align-items: center; }
         .item-names { width: 30%; text-align: left; }
