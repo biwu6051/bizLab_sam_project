@@ -65,28 +65,37 @@ $current_customer_items = $customer_items[0];
         .items-container {
             display: flex;
             flex-direction: column;
-            gap: 10px;
+            gap: 20px;
+            width: 100%; /* 占据父容器的全部宽度 */
+            box-sizing: border-box;
         }
 
         /* 为每个 item-row 添加浅色背景和边框 */
         .item-row {
             display: flex;
             align-items: center;
-            background-color: #f9f9f9; /* 浅色背景 */
+            justify-content: flex-start; /* 子元素从左向右排列 */
+            background-color: #f9f9f9;
             padding: 10px;
-            border: 1px solid #ddd; /* 浅色边框 */
+            border: 1px solid #ddd;
             border-radius: 5px;
+            width: 100%; /* 占据父容器的全部宽度 */
+            box-sizing: border-box; /* 包括内边距和边框在内 */
+            padding: 15px 10px 25px 10px; /* 调整内边距，上 15px，右 10px，下 25px，左 10px */
         }
 
         /* 设置 item-name 的样式 */
         .item-name {
-            width: 30%;
+            flex: 0 0 30%; /* 不允许增长或缩小，固定占据 30% 的宽度 */
             text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* 防止文本换行 */
         }
 
         /* 设置 slider-container 的样式 */
         .slider-container {
-            width: 60%;
+            flex: 0 0 60%; /* 不允许增长或缩小，固定占据 60% 的宽度 */
         }
 
         /* 调整滑块的样式，使其更高 */
@@ -97,9 +106,14 @@ $current_customer_items = $customer_items[0];
 
         /* 设置 slider-value 的样式 */
         .slider-value {
-            width: 10%;
+            flex: 0 0 10%; /* 不允许增长或缩小，固定占据 10% 的宽度 */
             text-align: left;
             min-width: 30px;
+            margin-left: 12px; /* 保持之前的水平间距 */
+        }
+
+        .item-name, .slider-container, .slider-value {
+            text-align: left;
         }
 
         /* 可选：调整滑块的样式（颜色、圆角等） */
@@ -125,6 +139,12 @@ $current_customer_items = $customer_items[0];
             cursor: pointer;
             border-radius: 5px;
         }
+        .submit-hint {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        }   
     </style>
 </head>
 <body>
@@ -144,7 +164,6 @@ $current_customer_items = $customer_items[0];
             </div>
         </div>
         <div class="right">
-            <h3>Cart</h3>
             <div class="items-container">
                 <?php foreach ($current_customer_items as $item => $price): ?>
                         <div class="item-row">
@@ -154,12 +173,13 @@ $current_customer_items = $customer_items[0];
                             <div class="slider-container">
                                 <input type="range" id="item-<?php echo $item; ?>" min="0" max="10" step="0.1" value="0">
                             </div>
-                            <div class="slider-value" id="value-<?php echo $item; ?>">0</div>
+                            <div class="slider-value" id="value-<?php echo $item; ?>">$0</div>
                         </div>
                     <?php endforeach; ?>
             </div>
             <div class="submit">
                 <button id="submit-cart" disabled>Submit Cart</button>
+                <p class="submit-hint">Submit button becomes active after you set all prices correctly.</p>
             </div>
         </div>
     </div>
@@ -191,7 +211,7 @@ $current_customer_items = $customer_items[0];
         document.querySelectorAll('.slider-container input[type="range"]').forEach(slider => {
             slider.addEventListener('input', function() {
                 const itemKey = this.id.split('-')[1];
-                document.getElementById('value-' + itemKey).textContent = this.value;
+                document.getElementById('value-' + itemKey).textContent = '$' + this.value;
                 checkSliders(); // Check if all sliders are correct after each input
             });
         });
@@ -328,7 +348,7 @@ $current_customer_items = $customer_items[0];
 
             // Attach event listener to the slider
             sliderInput.addEventListener('input', function() {
-                document.getElementById('value-' + itemKey).textContent = this.value;
+                document.getElementById('value-' + itemKey).textContent = '$' + this.value;
                 checkSliders(); // Check if all sliders are correct after each input
             });
 
