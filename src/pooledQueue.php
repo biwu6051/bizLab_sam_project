@@ -177,6 +177,90 @@ $current_customer_items = $customer_items[0];
             border-top: 1px solid #ccc;
             font-size: 18px;
         }
+        /* 让 items-container 以列的方式排列 */
+        .items-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%; /* 占据父容器的全部宽度 */
+            box-sizing: border-box;
+        }
+
+        /* 为每个 item-row 添加浅色背景和边框 */
+        .item-row {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* 子元素从左向右排列 */
+            background-color: #f9f9f9;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            width: 100%; /* 占据父容器的全部宽度 */
+            box-sizing: border-box; /* 包括内边距和边框在内 */
+            padding: 15px 10px 25px 10px; /* 调整内边距，上 15px，右 10px，下 25px，左 10px */
+        }
+
+        /* 设置 item-name 的样式 */
+        .item-name {
+            flex: 0 0 30%; /* 不允许增长或缩小，固定占据 30% 的宽度 */
+            text-align: left;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap; /* 防止文本换行 */
+        }
+
+        /* 设置 slider-container 的样式 */
+        .slider-container {
+            flex: 0 0 60%; /* 不允许增长或缩小，固定占据 60% 的宽度 */
+        }
+
+        /* 调整滑块的样式，使其更高 */
+        .slider-container input[type="range"] {
+            width: 100%;
+            height: 25px; /* 增加滑块的高度 */
+        }
+
+        /* 设置 slider-value 的样式 */
+        .slider-value {
+            flex: 0 0 10%; /* 不允许增长或缩小，固定占据 10% 的宽度 */
+            text-align: left;
+            min-width: 30px;
+            margin-left: 12px; /* 保持之前的水平间距 */
+        }
+
+        .item-name, .slider-container, .slider-value {
+            text-align: left;
+        }
+
+        /* 可选：调整滑块的样式（颜色、圆角等） */
+        .slider-container input[type="range"] {
+            -webkit-appearance: none; /* 移除默认样式，方便自定义 */
+            background: #ddd;
+            border-radius: 5px;
+        }
+
+        .slider-container input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 25px; /* 与滑块高度一致 */
+            background: #4CAF50; /* 滑块颜色 */
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .slider-container input[type="range"]::-moz-range-thumb {
+            width: 20px;
+            height: 25px;
+            background: #4CAF50;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .submit-hint {
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+            text-align: center;
+        } 
     </style>
 </head>
 <body>
@@ -204,28 +288,22 @@ $current_customer_items = $customer_items[0];
             </div>
         </div>
         <div class="right">
-            <h3>Cart</h3>
             <div class="items-container">
-                <div class="item-names">
-                    <?php foreach ($current_customer_items as $item => $price): ?>
-                        <div><?php echo $item; ?>: $<?php echo $price; ?></div>
-                    <?php endforeach; ?>
-                </div>
-                <div class="sliders">
-                    <?php foreach ($current_customer_items as $item => $price): ?>
-                        <div>
-                            <input type="range" id="item-<?php echo $item; ?>" min="0" max="10" step="0.1" value="0">
+                <?php foreach ($current_customer_items as $item => $price): ?>
+                        <div class="item-row">
+                            <div class="item-name">
+                                <?php echo $item; ?>: $<?php echo $price; ?>
+                            </div>
+                            <div class="slider-container">
+                                <input type="range" id="item-<?php echo $item; ?>" min="0" max="10" step="0.1" value="0">
+                            </div>
+                            <div class="slider-value" id="value-<?php echo $item; ?>">$0</div>
                         </div>
                     <?php endforeach; ?>
-                </div>
-                <div class="slider-values">
-                    <?php foreach ($current_customer_items as $item => $price): ?>
-                        <div id="value-<?php echo $item; ?>">0</div>
-                    <?php endforeach; ?>
-           </div>
             </div>
             <div class="submit">
                 <button id="submit-cart" disabled>Submit Cart</button>
+                <p class="submit-hint">Submit button becomes active after you set all prices correctly.</p>
             </div>
         </div>
     </div>
@@ -242,7 +320,7 @@ $current_customer_items = $customer_items[0];
         function checkSliders() {
             const currentCustomerItems = customerItemsArray[currentCustomerIndex];
             let allCorrect = true;
-            document.querySelectorAll('.sliders input[type="range"]').forEach(slider => {
+            document.querySelectorAll('.slider-container input[type="range"]').forEach(slider => {
                 const itemKey = slider.id.split('-')[1];
                 const expectedValue = currentCustomerItems[itemKey]; // Use JavaScript variable to check slider value
                 if (parseFloat(slider.value) !== expectedValue) {
@@ -253,10 +331,10 @@ $current_customer_items = $customer_items[0];
         }
 
         // Attach event listeners to sliders for updating displayed values and checking if the submit button should be enabled
-        document.querySelectorAll('.sliders input[type="range"]').forEach(slider => {
+        document.querySelectorAll('.slider-container input[type="range"]').forEach(slider => {
             slider.addEventListener('input', function() {
                 const itemKey = this.id.split('-')[1];
-                document.getElementById('value-' + itemKey).textContent = this.value;
+                document.getElementById('value-' + itemKey).textContent = '$' + this.value;
                 checkSliders(); // Check if all sliders are correct after each input
             });
         });
@@ -336,39 +414,66 @@ $current_customer_items = $customer_items[0];
 
         // Function to load the next customer's items into the item-names div and update sliders
         function loadNextCustomer() {
-            // Update the index for the next customer
-            currentCustomerIndex = (currentCustomerIndex + 1) % customerItemsArray.length;
+        // Update the index for the next customer
+        currentCustomerIndex = (currentCustomerIndex + 1) % customerItemsArray.length;
 
-            const nextCustomerItems = customerItemsArray[currentCustomerIndex]; // Get the items for the current customer
+        const nextCustomerItems = customerItemsArray[currentCustomerIndex]; // Get the items for the current customer
 
-            // Clear the current item names
-            const itemNamesDiv = document.querySelector('.item-names');
-            itemNamesDiv.innerHTML = ''; // Clear the current content in item-names
+        // Clear the current items container
+        const itemsContainer = document.querySelector('.items-container');
+        itemsContainer.innerHTML = ''; // Clear the current content
 
-            let i = 0;
-            Object.keys(nextCustomerItems).forEach(itemKey => {
-                const itemValue = nextCustomerItems[itemKey];
-                
-                // Update the item names div with the next customer's items
-                const itemNameElement = document.createElement('div');
-                itemNameElement.textContent = `${itemKey}: $${itemValue}`;
-                itemNamesDiv.appendChild(itemNameElement);
+        // Rebuild the items for the next customer
+        Object.keys(nextCustomerItems).forEach(itemKey => {
+            const itemValue = nextCustomerItems[itemKey];
 
-                // Update existing sliders
-                const slider = document.querySelectorAll('.sliders input[type="range"]')[i];
-                slider.id = 'item-' + itemKey; // Update the slider id
-                slider.min = 0;
-                slider.max = 10;
-                slider.value = 0;
+            // Create the item row container
+            const itemRow = document.createElement('div');
+            itemRow.classList.add('item-row');
 
-                // Update the corresponding value div
-                const valueDiv = document.querySelectorAll('.slider-values div')[i];
-                valueDiv.id = 'value-' + itemKey; // Update the id to match the new item
-                valueDiv.textContent = slider.value; // Update the value display div
+            // Create the item name div
+            const itemNameDiv = document.createElement('div');
+            itemNameDiv.classList.add('item-name');
+            itemNameDiv.textContent = `${itemKey}: $${itemValue}`;
 
-                i++;
+            // Create the slider container
+            const sliderContainer = document.createElement('div');
+            sliderContainer.classList.add('slider-container');
+
+            // Create the slider input
+            const sliderInput = document.createElement('input');
+            sliderInput.type = 'range';
+            sliderInput.id = 'item-' + itemKey;
+            sliderInput.min = 0;
+            sliderInput.max = 10;
+            sliderInput.step = 0.1;
+            sliderInput.value = 0;
+
+            // Attach event listener to the slider
+            sliderInput.addEventListener('input', function() {
+                document.getElementById('value-' + itemKey).textContent = '$' + this.value;
+                checkSliders(); // Check if all sliders are correct after each input
             });
-        }
+
+            // Append the slider input to the slider container
+            sliderContainer.appendChild(sliderInput);
+
+            // Create the slider value div
+            const sliderValueDiv = document.createElement('div');
+            sliderValueDiv.classList.add('slider-value');
+            sliderValueDiv.id = 'value-' + itemKey;
+            sliderValueDiv.textContent = '0';
+
+            // Append all elements to the item row
+            itemRow.appendChild(itemNameDiv);
+            itemRow.appendChild(sliderContainer);
+            itemRow.appendChild(sliderValueDiv);
+
+            // Append the item row to the items container
+            itemsContainer.appendChild(itemRow);
+        });
+        checkSliders();
+    }
 
         // Convert PHP array to JavaScript object for service times
         const serviceTimes = <?php echo json_encode($service_times); ?>;
