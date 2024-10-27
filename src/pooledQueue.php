@@ -21,6 +21,18 @@ for ($j = 0; $j < $initial_customers; $j++) {
     $pooled_queue[] = $customer_images[array_rand($customer_images)];
 }
 
+$cashier_queues = [];
+
+for ($i = 0; $i < $num_cashiers; $i++) {
+    if (count($pooled_queue) > 0) {
+        // 从pooled_queue中取出一个客户给收银员
+        $cashier_queues[$i][] = array_shift($pooled_queue);
+    } else {
+        // 如果pooled_queue为空，随机分配一个客户
+        $cashier_queues[$i][] = $customer_images[array_rand($customer_images)];
+    }
+}
+
 // Example: Start with the first customer for your cashier (cashier 2)
 $current_customer_items = $customer_items[0];
 ?>
@@ -260,7 +272,33 @@ $current_customer_items = $customer_items[0];
             font-size: 14px;
             color: #555;
             text-align: center;
-        } 
+        }
+        .cashier-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .cashier-queue {
+            width: 40px;
+            height: 40px;
+            margin-right: 10px; /* 与收银员之间的间距 */
+        }
+
+        .cashier-queue img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+        /* 对除参与者收银员外的其他收银员及其客户进行灰度处理 */
+        .cashier-row:not(#cashier-row-1) .cashier-name,
+        .cashier-row:not(#cashier-row-1) .cashier-queue img {
+            filter: grayscale(100%);
+        }
+
+        /* 给正在服务的客户的图片添加黑色边框 */
+        .cashier-queue img:first-child {
+            border: 2px solid black;
+        }
     </style>
 </head>
 <body>
@@ -280,8 +318,16 @@ $current_customer_items = $customer_items[0];
                 <!-- Cashier Area -->
                 <div class="cashier-area" id="cashier-area">
                     <?php for ($i = 0; $i < $num_cashiers; $i++): ?>
-                        <div class="cashier" id="cashier-<?php echo $i; ?>">
-                            <div class="cashier-name">Cashier <?php echo $i + 1; ?><?php echo $i == 1 ? ' (You)' : ''; ?></div>
+                        <div class="cashier-row" id="cashier-row-<?php echo $i; ?>">
+                            <div class="cashier-queue" id="cashier-queue-<?php echo $i; ?>">
+                                <!-- 在这里显示收银员队列中的客户 -->
+                                <?php if (isset($cashier_queues[$i]) && count($cashier_queues[$i]) > 0): ?>
+                                    <img src="../public/customer/<?php echo $cashier_queues[$i][0]; ?>" alt="Customer">
+                                <?php endif; ?>
+                            </div>
+                            <div class="cashier" id="cashier-<?php echo $i; ?>">
+                                <div class="cashier-name">Cashier <?php echo $i + 1; ?><?php echo $i == 1 ? ' (You)' : ''; ?></div>
+                            </div>
                         </div>
                     <?php endfor; ?>
                 </div>
@@ -402,16 +448,15 @@ $current_customer_items = $customer_items[0];
 
         // Function to handle cart submission and customer departure for the participant's cashier (Cashier 1)
         document.getElementById('submit-cart').addEventListener('click', function() {
-            removeCustomerFromQueue(); // Remove customer from pooled queue
+            // 移除收银员队列中的客户
+            removeCustomerFromCashierQueue(1); // 1表示Cashier 2
 
-            // Check if there are more customers in the queue
-            if (document.getElementById('pooled-queue').querySelectorAll('img').length > 0) {
-                loadNextCustomer(); // Load the next customer's items into the sliders
-            } else {
-                alert("The queue is now empty. Please wait for the next customer.");
-            }
+            // 尝试将下一个客户移动到收银员的队列
+            moveCustomerToCashierQueue(1);
+
+            // 加载下一个客户的商品
+            loadNextCustomer();
         });
-
         // Function to load the next customer's items into the item-names div and update sliders
         function loadNextCustomer() {
         // Update the index for the next customer
@@ -493,30 +538,26 @@ $current_customer_items = $customer_items[0];
             });
         }
 
-        // Function to process the queue for a cashier
+        // 修改模拟收银员的函数
         function processQueue(cashierIndex) {
             function processNextCustomer() {
-                if (document.getElementById('pooled-queue').querySelectorAll('img').length > 0) {
-                    // Get the next service time from the serviceTimes array
-                    const serviceTime = serviceTimes[serviceTimeIndex % serviceTimes.length] * 1000; // Ensure index wraps around
+                // 移除收银员队列中的客户
+                removeCustomerFromCashierQueue(cashierIndex);
 
-                    // Increment the global serviceTimeIndex for the next use
-                    serviceTimeIndex++;
+                // 尝试将下一个客户移动到收银员的队列
+                moveCustomerToCashierQueue(cashierIndex);
 
-                    // Set a timeout to remove a customer after the service time
-                    setTimeout(() => {
-                        console.log(`Cashier ${cashierIndex} removing customer`);
-                        removeCustomerFromQueue();
+                // 获取服务时间
+                const serviceTime = serviceTimes[serviceTimeIndex % serviceTimes.length] * 1000;
+                serviceTimeIndex++;
 
-                        // Process the next customer recursively
-                        processNextCustomer();
-                    }, serviceTime);
-                } else {
-                    console.log(`No more customers in the pooled queue.`);
-                }
+                // 服务完成后处理下一个客户
+                setTimeout(() => {
+                    processNextCustomer();
+                }, serviceTime);
             }
 
-            // Start processing the first customer
+            // 开始处理第一个客户
             processNextCustomer();
         }
 
@@ -560,6 +601,34 @@ $current_customer_items = $customer_items[0];
                 window.parent.postMessage(data, '*'); // Not considering security issues, using '*'
             }
         });
+        // 定义函数来移除收银员队列中的客户
+        function removeCustomerFromCashierQueue(cashierIndex) {
+            const cashierQueue = document.getElementById('cashier-queue-' + cashierIndex);
+            if (cashierQueue.children.length > 0) {
+                cashierQueue.removeChild(cashierQueue.children[0]);
+            }
+        }
+        // 定义函数来将客户从pooled queue移动到收银员的队列
+        function moveCustomerToCashierQueue(cashierIndex) {
+            const pooledQueue = document.getElementById('pooled-queue');
+            const cashierQueue = document.getElementById('cashier-queue-' + cashierIndex);
+
+            if (pooledQueue.children.length > 0) {
+                const customer = pooledQueue.children[0];
+                pooledQueue.removeChild(customer);
+                cashierQueue.appendChild(customer);
+
+                // 如果是参与者的收银员，需要加载下一个客户的商品
+                if (cashierIndex === 1) {
+                    loadNextCustomer(); // 加载下一个客户的商品
+                }
+            } else {
+                // 如果pooled queue为空，1秒后重试
+                setTimeout(() => {
+                    moveCustomerToCashierQueue(cashierIndex);
+                }, 1000);
+            }
+        }
     </script>
 </body>
 </html>
