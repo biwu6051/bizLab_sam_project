@@ -299,6 +299,27 @@ $current_customer_items = $customer_items[0];
         .cashier-queue img:first-child {
             border: 2px solid black;
         }
+
+        /* 确保所有收银员行具有相同的宽度和对齐方式 */
+        .cashier-row {
+            display: flex;
+            align-items: center;
+            width: 100%; /* 让每个收银员行占据父容器的全部宽度 */
+            box-sizing: border-box;
+            position: relative; /* 为了定位伪元素 */
+        }
+
+        /* 对非参与者的收银员行添加灰色背景 */
+        .cashier-row:not(#cashier-row-1)::before {
+            content: '';
+            position: absolute;
+            top: -5px;      /* 向上扩展灰色背景 */
+            left: 0;
+            right: 0;
+            bottom: -5px;   /* 向下扩展灰色背景 */
+            background-color: rgba(200, 200, 200, 0.5); /* 半透明的灰色背景 */
+            z-index: -1;     /* 确保背景在内容后面 */
+        }
     </style>
 </head>
 <body>
