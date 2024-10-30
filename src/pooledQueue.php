@@ -638,11 +638,6 @@ $current_customer_items = $customer_items[0];
                 const customer = pooledQueue.children[0];
                 pooledQueue.removeChild(customer);
                 cashierQueue.appendChild(customer);
-
-                // 如果是参与者的收银员，需要加载下一个客户的商品
-                if (cashierIndex === 1) {
-                    loadNextCustomer(); // 加载下一个客户的商品
-                }
             } else {
                 // 如果pooled queue为空，1秒后重试
                 setTimeout(() => {
