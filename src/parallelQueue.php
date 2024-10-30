@@ -184,7 +184,7 @@ $current_customer_items = $customer_items[0];
                                 <?php echo $item; ?>: $<?php echo $price; ?>
                             </div>
                             <div class="slider-container">
-                                <input type="range" id="item-<?php echo $item; ?>" min="0" max="10" step="0.1" value="0">
+                                <input type="range" id="item-<?php echo $item; ?>" min="0" max="6" step="1" value="0">
                             </div>
                             <div class="slider-value" id="value-<?php echo $item; ?>">$0</div>
                         </div>
@@ -355,8 +355,8 @@ $current_customer_items = $customer_items[0];
             sliderInput.type = 'range';
             sliderInput.id = 'item-' + itemKey;
             sliderInput.min = 0;
-            sliderInput.max = 10;
-            sliderInput.step = 0.1;
+            sliderInput.max = 6;
+            sliderInput.step = 1;
             sliderInput.value = 0;
 
             // Attach event listener to the slider
