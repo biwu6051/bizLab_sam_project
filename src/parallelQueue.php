@@ -40,8 +40,21 @@ $current_customer_items = $customer_items[0];
         .main-container { flex-grow: 1; display: flex; }
         .left, .right { width: 50%; box-sizing: border-box; padding: 20px; }
         .cashier-area { display: flex; flex-direction: column; gap: 20px; align-items: flex-end; }
-        .cashier { display: flex; align-items: center; justify-content: flex-end; width: 100%; }
-        .queue { display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; background-color: #f0f0f0; padding: 5px 0; border-radius: 5px; width: 100%; }
+        .cashier {
+            display: flex; 
+            align-items: center; 
+            justify-content: flex-end; 
+            width: 100%; 
+            padding: 10px;
+        }
+        .cashier:not(#cashier-1) {
+            background-color: rgba(200, 200, 200, 0.5); /* 半透明的灰色背景 */
+        }
+        #cashier-1 {
+            border-top: 3px solid rgba(200, 200, 200, 0.5);    /* 上边框，2像素，灰色 */
+            border-bottom: 3px solid rgba(200, 200, 200, 0.5); /* 下边框，2像素，灰色 */
+        }
+        .queue { display: flex; flex-direction: row-reverse; align-items: center; gap: 10px; padding: 5px 0; border-radius: 5px; width: 100%; }
         .queue img { width: 40px; height: 40px; border-radius: 50%; }
         .queue img:first-child {margin-left: 20px;border: 2px solid grey;}
         #cashier-0 .queue img,
