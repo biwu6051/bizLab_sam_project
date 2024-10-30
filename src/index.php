@@ -48,5 +48,19 @@
             <button onclick="window.location.href='/src/pooledQueue.php'">Start Simulation</button>
         </div>
     </div>
+
+    <div class="container-wrapper">
+        <div class="container">
+            <h1>Parallel Formal</h1>
+            <p>Click the button below to start the simulation.</p>
+            <button onclick="window.location.href='/src/parallelQueue_formal.php'">Start Simulation</button>
+        </div>
+        
+        <div class="container">
+            <h1>Pooled Formal</h1>
+            <p>Click the button below to start the simulation.</p>
+            <button onclick="window.location.href='/src/pooledQueue_fromal.php'">Start Simulation</button>
+        </div>
+    </div>
 </body>
 </html>
