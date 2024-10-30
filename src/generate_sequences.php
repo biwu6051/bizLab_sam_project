@@ -39,10 +39,10 @@ $items = [
     'Yogurt', 'Juice', 'Cereal', 'Soda', 'Water'
 ];
 
-// Generate prices for 30 items, ranging from 1 to 10, with increments of 0.1
+// Generate prices for 30 items, ranging from 1 to 5, with increments of 1
 $prices = [];
 foreach ($items as $item) {
-    $prices[$item] = mt_rand(10, 100) / 10; // Associate item names with prices
+    $prices[$item] = mt_rand(1, 5); // Associate item names with prices
 }
 
 // Initialize the customer item selection list
