@@ -14,7 +14,7 @@ $customer_images = array_values(array_diff(scandir($customerImgDir), array('.', 
 
 // Initialize the pooled queue with initial customers
 $num_cashiers = 4;
-$initial_customers = 16;
+$initial_customers = 15;
 $pooled_queue = [];
 
 for ($j = 0; $j < $initial_customers; $j++) {
@@ -372,6 +372,9 @@ $current_customer_items = $customer_items[0];
                 <button id="submit-cart" disabled>Submit Cart</button>
                 <p class="submit-hint">Submit button becomes active after you set all prices correctly.</p>
             </div>
+            <div id="waiting-message" style="display: none; text-align: center; font-size: 18px; color: gray;">
+                Waiting for customers ...
+            </div>
         </div>
     </div>
     <!-- <div class="timer-container">
@@ -394,7 +397,11 @@ $current_customer_items = $customer_items[0];
                     allCorrect = false;
                 }
             });
+            // Temporarily comment out the disabling logic
             document.getElementById('submit-cart').disabled = !allCorrect;
+
+            // Keep the button always enabled for testing
+            // document.getElementById('submit-cart').disabled = false;
         }
 
         // Attach event listeners to sliders for updating displayed values and checking if the submit button should be enabled
@@ -405,6 +412,35 @@ $current_customer_items = $customer_items[0];
                 checkSliders(); // Check if all sliders are correct after each input
             });
         });
+
+        function toggleCartVisibility() {
+            const cashierQueue = document.getElementById('cashier-queue-1'); // Queue for the participant's cashier
+            const pooledQueue = document.getElementById('pooled-queue');    // Global pooled queue
+            const cartContainer = document.querySelector('.items-container');
+            const submitContainer = document.querySelector('.submit');
+            const waitingMessage = document.getElementById('waiting-message');
+
+            // Check if participant's cashier has no customer and pooled queue is empty
+            const noCustomerInCashier = !cashierQueue || cashierQueue.children.length === 0;
+            const noCustomerInPooledQueue = !pooledQueue || pooledQueue.children.length === 0;
+
+            if (noCustomerInCashier && noCustomerInPooledQueue) {
+                // Hide cart and submit button, show waiting message
+                cartContainer.style.display = 'none';
+                submitContainer.style.display = 'none';
+                if (waitingMessage) waitingMessage.style.display = 'block';
+            } else {
+                // Show cart and submit button, hide waiting message
+                cartContainer.style.display = 'block';
+                submitContainer.style.display = 'block';
+                if (waitingMessage) waitingMessage.style.display = 'none';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            toggleCartVisibility();
+        });
+
 
         // Load arrival times from PHP
         const arrivalTimes = <?php echo json_encode($arrival_times); ?>;
@@ -471,6 +507,19 @@ $current_customer_items = $customer_items[0];
         document.getElementById('submit-cart').addEventListener('click', function() {
             // 移除收银员队列中的客户
             removeCustomerFromCashierQueue(1); // 1表示Cashier 2
+            if (lastCustomerStartTime === null) {
+                console.error('Service start time is not set.');
+                return;
+            }
+
+            // Calculate service time for the current customer
+            const submitTime = Date.now();
+            const serviceTime = (submitTime - lastCustomerStartTime) / 1000; // Convert to seconds
+
+            // Store the service time in the `submitTimes` array
+            submitTimes.push(serviceTime);
+            console.log(`Service time for the current customer (seconds): ${serviceTime}`);
+            console.log('Current submitTimes array:', submitTimes);
 
             // 尝试将下一个客户移动到收银员的队列
             moveCustomerToCashierQueue(1);
@@ -588,24 +637,11 @@ $current_customer_items = $customer_items[0];
             if (pooledQueue.children.length > 0) {
                 pooledQueue.removeChild(pooledQueue.children[0]);
             }
+            toggleCartVisibility(); // Update visibility
         }
 
-        let submitTimes = [];  // Array to store the submit times
-        const submitTime = new Date().toISOString();  // Capture the current time as an ISO string
-        submitTimes.push(submitTime);  // Store the experiment starting time in the array
-        console.log('Experiment starting time:', submitTime);
-
-        // Capture the time when the customer completes their service
-        document.getElementById('submit-cart').addEventListener('click', function() {
-            const submitTime = new Date().toISOString();  // Capture the current time as an ISO string
-
-            submitTimes.push(submitTime);  // Store the time in the array
-            
-            console.log('Submit time for the current customer:', submitTime);
-
-            // Send the submit times to Qualtrics
-            // Qualtrics.SurveyEngine.setEmbeddedData('submitTimes', JSON.stringify(submitTimes));
-        });
+        let lastCustomerStartTime = Date.now(); // Timestamp when the current customer starts being served
+        let submitTimes = []; // Array to store service times for debugging and submission
 
         // Add a message listener to receive requests from the parent window
         window.addEventListener('message', function(event) {
@@ -628,16 +664,28 @@ $current_customer_items = $customer_items[0];
             if (cashierQueue.children.length > 0) {
                 cashierQueue.removeChild(cashierQueue.children[0]);
             }
+            toggleCartVisibility(); // Update visibility
         }
         // 定义函数来将客户从pooled queue移动到收银员的队列
         function moveCustomerToCashierQueue(cashierIndex) {
             const pooledQueue = document.getElementById('pooled-queue');
             const cashierQueue = document.getElementById('cashier-queue-' + cashierIndex);
 
+            if (cashierQueue.children.length > 0) {
+                // 如果该收银员的队列中已经有客户了，就不需要轮询了
+                return;
+            }
+
             if (pooledQueue.children.length > 0) {
                 const customer = pooledQueue.children[0];
                 pooledQueue.removeChild(customer);
                 cashierQueue.appendChild(customer);
+                // Update the service start time for the participant's cashier
+                if (cashierIndex === 1) { // Assuming cashier 1 is the participant
+                    lastCustomerStartTime = Date.now();
+                    console.log(`Service started for a new customer at: ${new Date(lastCustomerStartTime).toLocaleString()}`);
+                }   
+                toggleCartVisibility(); // Update visibility
             } else {
                 // 如果pooled queue为空，1秒后重试
                 setTimeout(() => {
