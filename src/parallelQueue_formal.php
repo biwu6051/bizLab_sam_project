@@ -157,6 +157,11 @@ $current_customer_items = $customer_items[0];
             font-size: 14px;
             color: #555;
             text-align: center;
+        }
+        #waiting-message {
+            font-size: 18px;
+            color: gray;
+            margin-top: 20px;
         }   
     </style>
 </head>
@@ -194,6 +199,12 @@ $current_customer_items = $customer_items[0];
                 <button id="submit-cart" disabled>Submit Cart</button>
                 <p class="submit-hint">Submit button becomes active after you set all prices correctly.</p>
             </div>
+            <div id="waiting-message" style="display: none; text-align: center; font-size: 18px; color: gray;">
+                Waiting for customers ...
+            </div>
+            <div class="items-container">
+                <!-- Existing cart content -->
+            </div>
         </div>
     </div>
     <!-- <div class="timer-container">
@@ -216,7 +227,12 @@ $current_customer_items = $customer_items[0];
                     allCorrect = false;
                 }
             });
+
+            // Temporarily comment out the disabling logic
             document.getElementById('submit-cart').disabled = !allCorrect;
+
+            // Keep the button always enabled for testing
+            // document.getElementById('submit-cart').disabled = false;
         }
 
 
@@ -251,6 +267,29 @@ $current_customer_items = $customer_items[0];
             return selectedCashier;
         }
 
+        // Function to toggle the visibility of the cart
+        function toggleCartVisibility() {
+            const cashierQueue = document.querySelector('#cashier-1 .queue');
+            const cartContainer = document.querySelector('.items-container');
+            const submitContainer = document.querySelector('.submit');
+            const waitingMessage = document.getElementById('waiting-message');
+            
+            // Check if the queue has customers
+            if (cashierQueue && cashierQueue.children.length > 0) {
+                cartContainer.style.display = 'block'; // Show cart
+                submitContainer.style.display = 'block'; // Show submit button and hint
+                waitingMessage.style.display = 'none'; // Hide waiting message
+            } else {
+                cartContainer.style.display = 'none'; // Hide cart
+                submitContainer.style.display = 'none'; // Hide submit button and hint
+                waitingMessage.style.display = 'block'; // Show waiting message
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', () => {
+            toggleCartVisibility(); // Ensure correct cart visibility on page load
+        });
+
         // Function to add a new customer to the shortest queue
         function addCustomerToQueue() {
         const selectedCashier = findShortestQueue();
@@ -269,6 +308,9 @@ $current_customer_items = $customer_items[0];
             customerImg.style.borderRadius = '50%';
 
             selectedCashier.querySelector('.queue').appendChild(customerImg);
+
+            // Check cart visibility after a new customer arrives
+            toggleCartVisibility();
         }
     }
 
@@ -307,18 +349,64 @@ $current_customer_items = $customer_items[0];
     // Start the elapsed time counter
     // startElapsedTimeCounter();
 
-    // Function to handle cart submission and customer departure for the participant's queue (Cashier 2)
-    document.getElementById('submit-cart').addEventListener('click', function() {
-        const cashierQueue = document.querySelector('#cashier-1 .queue'); // subject is Cashier 1 in HTML (in Cashier 0,1,2,3)
+    let lastCustomerStartTime = Date.now(); // Track the start time of the current customer's service
+
+    // Function to update the service start time
+    function updateServiceStartTime() {
+        const cashierQueue = document.querySelector('#cashier-1 .queue');
+
         if (cashierQueue && cashierQueue.children.length > 0) {
-            cashierQueue.removeChild(cashierQueue.children[0]); // Remove the first customer in the queue
+            // If there's a customer in the queue, update the start time
+            lastCustomerStartTime = Date.now();
+            console.log('Service started for the next customer at:', new Date(lastCustomerStartTime).toLocaleString());
+        } else {
+            // If the queue is empty, wait for a new customer
+            console.log('Waiting for the next customer to arrive...');
         }
+    }
+
+    // Function to handle cart submission and customer departure for the participant's queue (Cashier 2)
+    // Attach an event listener to the submit button
+    document.getElementById('submit-cart').addEventListener('click', function() {
+        if (lastCustomerStartTime === null) {
+            console.error('Service start time is not set. Please check the logic.');
+            return;
+        }
+
+        // Calculate the service time for the current customer
+        const submitTime = Date.now(); // Current timestamp
+        const serviceTime = (submitTime - lastCustomerStartTime) / 1000; // Calculate service time in seconds
+
+        // Store the service time in the `submitTimes` array
+        submitTimes.push(serviceTime);
+        console.log('Service time for the current customer (seconds):', serviceTime);
+        // Print the full `submitTimes` array for debugging
+        console.log('Current submitTimes array:', submitTimes);
+
+        // Remove the first customer from the queue
+        const cashierQueue = document.querySelector('#cashier-1 .queue');
+        if (cashierQueue && cashierQueue.children.length > 0) {
+            cashierQueue.removeChild(cashierQueue.children[0]); // Remove the first customer
+        }
+
+        toggleCartVisibility(); // if no customer, then make cart invisible
 
         // Check if there are more customers in the queue
         if (cashierQueue.children.length > 0) {
-            loadNextCustomer(); // Load the next customer's items into the sliders
+            updateServiceStartTime(); // Update the start time for the next customer
+            loadNextCustomer(); // Load the next customer's items
         } else {
-            alert("The queue is now empty. Please wait for the next customer.");
+            // alert("The queue is now empty. Please wait for the next customer.");
+
+            // Use a MutationObserver to wait for a new customer
+            const observer = new MutationObserver(() => {
+                if (cashierQueue.children.length > 0) {
+                    observer.disconnect(); // Stop observing once a new customer arrives
+                    updateServiceStartTime(); // Update the service start time
+                    loadNextCustomer(); // Load the next customer's items
+                }
+            });
+            observer.observe(cashierQueue, { childList: true });
         }
     });
 
@@ -404,7 +492,7 @@ $current_customer_items = $customer_items[0];
         });
     }
 
-    // Function to process the queue of a cashier
+    // Function to process a queue
     function processQueue(cashierIndex) {
         const cashierQueue = document.querySelector(`#cashier-${cashierIndex} .queue`);
         if (!cashierQueue) {
@@ -412,69 +500,58 @@ $current_customer_items = $customer_items[0];
             return;
         }
 
-        // Output the length of the queue for debugging
-        console.log(`Initial queue length for cashier ${cashierIndex}:`, cashierQueue.children.length);
+        let isProcessing = false; // State variable to track if the queue is being processed
 
+        // Define the function to process the next customer
         function processNextCustomer() {
             if (cashierQueue.children.length > 0) {
-                // Get the next service time from the shared serviceTimes array
-                const serviceTime = serviceTimes[serviceTimeIndex % serviceTimes.length] * 1000; // Ensure index wraps around
-
-                // Increment the global serviceTimeIndex for the next use
+                isProcessing = true; // Mark as processing
+                const serviceTime = serviceTimes[serviceTimeIndex % serviceTimes.length] * 1000; // Get service time
                 serviceTimeIndex++;
 
-                // Check if the service time is valid and not NaN
                 if (isNaN(serviceTime)) {
-                    console.error(`Service time for cashier ${cashierIndex} is NaN. Check the serviceTimes array. Times:`, serviceTimes);
-                    return; // Skip processing this customer if the service time is invalid
+                    console.error(`Invalid service time for cashier ${cashierIndex+1}`);
+                    isProcessing = false; // Reset processing state on error
+                    return;
                 }
 
-                console.log(`Cashier ${cashierIndex} serving customer with service time ${serviceTime / 1000} seconds`);
-
-                // Set a timeout to remove the current customer after the service time
+                // Process the first customer after the service time
                 setTimeout(() => {
-                    // Check the queue length again before removing a customer
-                    console.log(`Queue length for cashier ${cashierIndex} before removing:`, cashierQueue.children.length);
-
                     if (cashierQueue.children.length > 0) {
-                        console.log(`Cashier ${cashierIndex} removing customer`);
-                        cashierQueue.removeChild(cashierQueue.children[0]);
-
-                        // Print the current length of the queue
-                        console.log(`Queue length for cashier ${cashierIndex} after removing:`, cashierQueue.children.length);
-
-                        // Process the next customer recursively
-                        processNextCustomer();
+                        cashierQueue.removeChild(cashierQueue.children[0]); // Remove the customer
+                        processNextCustomer(); // Process the next customer
                     } else {
-                        console.log(`Queue for cashier ${cashierIndex} is already empty.`);
+                        isProcessing = false; // Reset processing state when queue is empty
+                        console.log(`Queue for cashier ${cashierIndex+1} is empty.`);
                     }
                 }, serviceTime);
             } else {
-                console.log(`No more customers for cashier ${cashierIndex}`);
+                isProcessing = false; // Reset processing state when queue is empty
+                console.log(`Queue for cashier ${cashierIndex+1} is empty.`);
             }
         }
 
-        // Start processing the first customer
-        processNextCustomer();
+        // Monitor the queue for changes (e.g., new customers)
+        const observer = new MutationObserver(() => {
+            if (!isProcessing && cashierQueue.children.length > 0) {
+                console.log(`New customer arrived in cashier ${cashierIndex+1}'s queue. Resuming service.`);
+                processNextCustomer(); // Resume processing when a new customer arrives
+            }
+        });
+
+        // Observe the cashier's queue for child changes
+        observer.observe(cashierQueue, { childList: true });
+
+        // Start processing the first customer if the queue is not empty
+        if (cashierQueue.children.length > 0) {
+            processNextCustomer();
+        }
     }
 
+
     let submitTimes = [];  // Array to store the submit times
-    const submitTime = new Date().toISOString();  // Capture the current time as an ISO string
-    submitTimes.push(submitTime);  // Store the experiment starting time in the array
     console.log('Experiment starting time:', submitTime);
     
-
-    // Capture the time when the customer completes their service
-    document.getElementById('submit-cart').addEventListener('click', function() {
-        const submitTime = new Date().toISOString();  // Capture the current time as an ISO string
-
-        submitTimes.push(submitTime);  // Store the time in the array
-        
-        console.log('Submit time for the current customer:', submitTime);
-
-        // Send the submit times to Qualtrics
-        // Qualtrics.SurveyEngine.setEmbeddedData('submitTimes', JSON.stringify(submitTimes));
-    });
 
     // Add a message listener to receive requests from the parent window
     window.addEventListener('message', function(event) {
