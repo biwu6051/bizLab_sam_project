@@ -645,17 +645,21 @@ $current_customer_items = $customer_items[0];
 
         // Add a message listener to receive requests from the parent window
         window.addEventListener('message', function(event) {
-            // Not considering security issues, so we won't check event.origin
+            console.log('Iframe received a message:', event.data);
 
             if (event.data && event.data.type === 'REQUEST_SUBMIT_TIMES') {
+                console.log('REQUEST_SUBMIT_TIMES received. Current submitTimes:', submitTimes);
+
                 // Prepare the data to send
                 var data = {
                     type: 'RESPONSE_SUBMIT_TIMES',
                     submitTimes: submitTimes
                 };
 
+                console.log('Sending RESPONSE_SUBMIT_TIMES message back to parent:', data);
                 // Send the data back to the parent window via postMessage
-                window.parent.postMessage(data, '*'); // Not considering security issues, using '*'
+                window.parent.postMessage(data, '*'); 
+                console.log('Message posted to parent');
             }
         });
         // 定义函数来移除收银员队列中的客户
